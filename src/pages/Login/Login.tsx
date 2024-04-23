@@ -1,13 +1,15 @@
-import { Input, RoudedButton, RoudedButtonColorized } from "../../components"
+import { Input, MainButton } from "../../components"
 import Logo from '../../assets/logo/logo.png'
+import {Fonts} from '../../fonts'
 
 export const Login = () => {
-    const estiloLinha = {
-        width: '50%',        // Largura da linha
-        color: 'blue',       // Cor da linha
-        backgroundColor: 'blue',  // Cor de fundo da linha (pode afetar a aparência em alguns navegadores)
-        height: '2px',       // Espessura da linha
-    };
+    // const estiloLinha = {
+    //     width: '50%',        // Largura da linha
+    //     color: 'blue',       // Cor da linha
+    //     backgroundColor: 'blue',  // Cor de fundo da linha (pode afetar a aparência em alguns navegadores)
+    //     height: '2px',       // Espessura da linha
+    // };
+
     return (
         <main>
             <section>
@@ -19,12 +21,12 @@ export const Login = () => {
             <form action="/" method="post">
                 <Input content="email" type="email" />
                 <Input content="senha" type="password" />
-                <RoudedButtonColorized content="continuar" />
+                <MainButton content="Continuar" font={
+                    Fonts ? Fonts.NotoSans : 'sans-serif' 
+                }
+                radius="50px" width="280px"/>
             </form>
-            <hr style={estiloLinha} />
-            <form action="/" method="post">
-                <RoudedButton content="Crie uma conta!" />
-            </form>
+            {/* <hr style={estiloLinha} /> */}
         </main>
     )
 }

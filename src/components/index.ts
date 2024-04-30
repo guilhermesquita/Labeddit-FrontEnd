@@ -1,2 +1,2 @@
 export * from './input/Input'
-export * from './buttons/roudedButton/MainButton'
+export * from './buttons/MainButton'

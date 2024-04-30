@@ -11,6 +11,13 @@ export const theme = createTheme({
         }
     },
     components: {
+        MuiTableBody: {
+            styleOverrides: {
+                root: {
+                    margin: 0
+                }
+            }
+        },
         MuiButton: {
             styleOverrides: {
                 contained: {

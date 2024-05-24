@@ -2,6 +2,7 @@ import { InputText, MainButton } from "../../components";
 import Logo from '../../assets/logo/logo.png';
 import { Fonts } from '../../fonts';
 import { Box, FormControl } from "@mui/material";
+import { MainLogo } from "../../components/mainLogo/MainLogo";
 
 export const Login = () => {
     return (
@@ -11,20 +12,7 @@ export const Login = () => {
             minHeight: '100vh',
             width: '100%',
         }}>
-            <Box component='section' sx={{
-                display: "flex",
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-                mt: { xs: '50px', md: '100px' },
-                flexGrow: 0,
-                fontFamily: Fonts ? Fonts.NotoSans : 'sans-serif',
-                color: '#373737',
-                fontSize: { xs: '16px', md: '20px' }
-            }}>
-                <img src={Logo} alt="LabEddit Logo" style={{ height: '5%' }} />
-                <h1 style={{cursor: "pointer"}}>LabEddit</h1>
-            </Box>
+            <MainLogo/>
 
             <FormControl sx={{
                 display: 'flex',

@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Router } from "react-router-dom";
 import { Login } from "./pages";
 import { GlobalStyles, Switch } from "@mui/material";
+import { Register } from "./pages/register/Register";
 
 export const App = () => {
     return (
@@ -8,7 +9,8 @@ export const App = () => {
         //     <Switch>
         //         <Route path="/" Component={Login}/>
         //     </Switch>
-        <Login /> 
+        // <Login />
+        <Register /> 
         // </Router>
         // <BrowserRouter>
         //     <GlobalStyles>

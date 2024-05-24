@@ -18,7 +18,6 @@ export const theme = createTheme({
                 }
             }
         },
-        // MuiCssBaseline:{}
         MuiButton: {
             styleOverrides: {
                 contained: {
@@ -27,6 +26,13 @@ export const theme = createTheme({
                         background: 'linear-gradient(to right, #F9B24E, #FF6489)', // Inverta as cores no hover
                     },
                     textTransform: 'none'
+                },
+            },
+        },
+        MuiLink: {
+            styleOverrides: {
+                root: {
+                    textDecoration: 'none', 
                 },
             },
         },

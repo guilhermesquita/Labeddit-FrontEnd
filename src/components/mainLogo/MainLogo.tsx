@@ -2,14 +2,18 @@ import { Box } from "@mui/material"
 import { Fonts } from "../../fonts"
 import Logo from '../../assets/logo/logo.png'
 
-export const MainLogo = () => {
+interface Iprops{
+    margintop: string;
+}
+
+export const MainLogo = (props: Iprops) => {
     return (
         <Box component='section' sx={{
             display: "flex",
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            mt: { xs: '50px', md: '100px' },
+            mt: props.margintop,
             flexGrow: 0,
             fontFamily: Fonts ? Fonts.NotoSans : 'sans-serif',
             color: '#373737',

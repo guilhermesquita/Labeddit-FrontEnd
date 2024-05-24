@@ -12,7 +12,7 @@ export const Login = () => {
             minHeight: '100vh',
             width: '100%',
         }}>
-            <MainLogo/>
+            <MainLogo margintop="100px"/>
 
             <FormControl sx={{
                 display: 'flex',

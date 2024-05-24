@@ -1,85 +1,69 @@
-import { InputText, MainButton } from "../../components"
-import Logo from '../../assets/logo/logo.png'
-import {Fonts} from '../../fonts'
-import { Box, Divider, FormControl } from "@mui/material"
+import { InputText, MainButton } from "../../components";
+import Logo from '../../assets/logo/logo.png';
+import { Fonts } from '../../fonts';
+import { Box, FormControl } from "@mui/material";
 
 export const Login = () => {
-    // const estiloLinha = {
-    //     width: '50%',        // Largura da linha
-    //     color: 'blue',       // Cor da linha
-    //     backgroundColor: 'blue',  // Cor de fundo da linha (pode afetar a aparência em alguns navegadores)
-    //     height: '2px',       // Espessura da linha
-    // };
-
     return (
-        <main style={{}}>
+        <Box component='div' sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            minHeight: '100vh',
+            width: '100%',
+        }}>
             <Box component='section' sx={{
-                width: '90%',
+                display: "flex",
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                mt: { xs: '50px', md: '100px' },
+                flexGrow: 0,
+                fontFamily: Fonts ? Fonts.NotoSans : 'sans-serif',
+                color: '#373737',
+                fontSize: { xs: '16px', md: '20px' }
             }}>
-                <Box component='section' sx={{
-                    display:"flex",
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    width: '100%',
-                    height: '100%',
-                    marginTop: '120px',	
-                    fontFamily: Fonts ? Fonts.NotoSans : 'sans-serif',
-                    color: '#373737',
-                    fontSize: '20px'
-                }}>
-                    <img src={Logo}  alt="Descrição da imagem" height='5%'/>
-                    <h1>LabEddit</h1>
-                </Box>
-                {/* <section>
-                    <img src={Logo}  alt="Descrição da imagem" height='10%'/>
-                    <h1>LabEddit</h1>
-                    <p>O projeto de rede social da Labenu</p>
-                </section> */}
+                <img src={Logo} alt="LabEddit Logo" style={{ height: '5%' }} />
+                <h1>LabEddit</h1>
+            </Box>
 
-                <FormControl sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    width: '100%',
-                    height: '100%',
-                }}>
-                    <InputText content="Email" type="email" color="#323941"
-                    width="25%" multiline = {false} variant="outlined"/>
-                    {/* <Divider sx={{ height: 28, m: 0.5, backgroundColor: 'red'}} orientation="horizontal" /> */}
-                    <InputText content="Senha" type="password" color="#323941"
-                    width="25%" multiline = {false} variant="outlined"/>
-                    <MainButton content="Continuar" font={
-                        Fonts ? Fonts.NotoSans : 'sans-serif' 
-                    }
-                    radius="50px" width="280px"/>
-                </FormControl>
-                {/* <hr style={estiloLinha} /> */}
-                <Box component='footer' sx={{
-                    display:"flex",
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    width: '100%',
-                    height: '100%',
-                    marginTop: '150px',	
-                    fontFamily: Fonts ? Fonts.IbmPlexSans : 'sans-serif',
-                }}>
+            <FormControl sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                flexGrow: 1,
+                width: '100%',
+                height: '100%',
+                px: { xs: 2, md: 0 }
+            }}>
+                <InputText content="Email" type="email" color="#323941"
+                    width={{ xs: '100%', sm: '75%', md: '50%', lg: '25%' }} multiline={false} variant="outlined" />
+                <InputText content="Senha" type="password" color="#323941"
+                    width={{ xs: '100%', sm: '75%', md: '50%', lg: '25%' }} multiline={false} variant="outlined" />
+                <MainButton content="Continuar" font={Fonts ? Fonts.NotoSans : 'sans-serif'}
+                    radius="50px" width={{ xs: '90%', md: '280px' }} />
+            </FormControl>
+
+            <Box component='footer' sx={{
+                display: "flex",
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: '100%',
+                padding: '20px 0',
+                backgroundColor: '#f9f9f9',
+                fontFamily: Fonts ? Fonts.IbmPlexSans : 'sans-serif',
+                fontSize: { xs: '14px', md: '16px' },
+                color: '#000',
+                borderTop: '1px solid #ddd'
+            }}>
                 <Box component='a' sx={{
                     textDecoration: 'none',
                     color: 'black',
-                }} 
-                href="#"><strong>é novo no labeddit? faça o CADASTRO</strong></Box> 
-                </Box>
+                    '&:hover': {
+                        textDecoration: 'underline'
+                    }
+                }} href="#">É novo no LabEddit? Faça o <strong>Cadastro</strong></Box>
             </Box>
-
-            <Box component='aside' sx={{width: '100%'}}>
-                <Box component='section' sx={{width: '100%', backgroundColor: 'orange'}}>
-                    d
-                </Box>
-            </Box>
-
-        </main>
-    )
-}
+        </Box>
+    );
+};

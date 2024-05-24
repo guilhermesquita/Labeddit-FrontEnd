@@ -1,4 +1,3 @@
-import { blueGrey, green, red } from '@mui/material/colors';
 import { createTheme } from '@mui/material/styles';
 
 export const theme = createTheme({
@@ -14,10 +13,12 @@ export const theme = createTheme({
         MuiTableBody: {
             styleOverrides: {
                 root: {
-                    margin: 0
+                    margin: 0,
+                    padding: 0
                 }
             }
         },
+        // MuiCssBaseline:{}
         MuiButton: {
             styleOverrides: {
                 contained: {

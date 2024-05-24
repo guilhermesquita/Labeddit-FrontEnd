@@ -23,7 +23,7 @@ export const Login = () => {
                 fontSize: { xs: '16px', md: '20px' }
             }}>
                 <img src={Logo} alt="LabEddit Logo" style={{ height: '5%' }} />
-                <h1>LabEddit</h1>
+                <h1 style={{cursor: "pointer"}}>LabEddit</h1>
             </Box>
 
             <FormControl sx={{
@@ -40,7 +40,7 @@ export const Login = () => {
                 <InputText content="Senha" type="password" color="#323941"
                     width={{ xs: '100%', sm: '75%', md: '50%', lg: '25%' }} multiline={false} variant="outlined" />
                 <MainButton content="Continuar" font={Fonts ? Fonts.NotoSans : 'sans-serif'}
-                    radius="50px" width={{ xs: '90%', md: '280px' }} />
+                    radius="50px" width={{ xs: '90%', md: '280px', lg:'25%' }} />
             </FormControl>
 
             <Box component='footer' sx={{

@@ -1,5 +1,4 @@
 import { InputText, MainButton } from "../../components";
-import Logo from '../../assets/logo/logo.png';
 import { Fonts } from '../../fonts';
 import { Box, FormControl } from "@mui/material";
 import { MainLogo } from "../../components/mainLogo/MainLogo";
@@ -46,11 +45,12 @@ export const Login = () => {
             }}>
                 <Box component='a' sx={{
                     textDecoration: 'none',
+                    fontFamily: Fonts ? Fonts.NotoSans : 'sans-serif',
                     color: 'black',
                     '&:hover': {
                         textDecoration: 'underline'
                     }
-                }} href="#">É novo no LabEddit? Faça o <strong>Cadastro</strong></Box>
+                }} href='users/register'>É novo no LabEddit? Faça o <strong>Cadastro</strong></Box>
             </Box>
         </Box>
     );

@@ -97,23 +97,26 @@ export const Register = () => {
                 />
             </FormControl>
 
-            <a 
-                href="#" 
-                style={{
+            <Box component='a' 
+                href="/" 
+                sx={{
                     width: '100%',
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
                     marginTop: '20px',
-                    fontFamily: Fonts ? Fonts.NotoSans : 'sans-serif',
-                    color: '#373737',
                     fontSize: '15px',
                     textDecoration: 'none',
                     marginBottom: '30px',
+                    fontFamily: Fonts ? Fonts.NotoSans : 'sans-serif',
+                    color: 'black',
+                    '&:hover': {
+                        textDecoration: 'underline'
+                    }
                 }}
             >
                 Já tem uma conta? Faça o seu LOGIN
-            </a>
+            </Box>
         </Box>
     );
 }

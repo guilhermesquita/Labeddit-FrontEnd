@@ -1,8 +1,3 @@
-import { BrowserRouter, Route, Router } from "react-router-dom";
-import { Login } from "./pages";
-import { GlobalStyles, Switch } from "@mui/material";
-import { Register } from "./pages/register/Register";
-import { Home } from "./pages/home";
 import { AppRouter } from "./routes/router";
 
 export const App = () => {

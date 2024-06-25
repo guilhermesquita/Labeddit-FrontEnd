@@ -1,7 +1,7 @@
-import { InputText, MainButton } from "../../components";
 import { Fonts } from '../../fonts';
-import { Box, FormControl } from "@mui/material";
+import { Box } from "@mui/material";
 import { MainLogo } from "../../components/mainLogo/MainLogo";
+import { LoginForm } from "../../components/login-form/loginForm";
 
 export const Login = () => {
     return (
@@ -11,25 +11,8 @@ export const Login = () => {
             minHeight: '100vh',
             width: '100%',
         }}>
-            <MainLogo margintop="100px"/>
-
-            <FormControl sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                flexGrow: 1,
-                width: '100%',
-                height: '100%',
-                px: { xs: 2, md: 0 }
-            }}>
-                <InputText content="Email" type="email" color="#323941"
-                    width={{ xs: '100%', sm: '75%', md: '50%', lg: '25%' }} multiline={false} variant="outlined" />
-                <InputText content="Senha" type="password" color="#323941"
-                    width={{ xs: '100%', sm: '75%', md: '50%', lg: '25%' }} multiline={false} variant="outlined" />
-                <MainButton content="Continuar" font={Fonts ? Fonts.NotoSans : 'sans-serif'}
-                    radius="50px" width={{ xs: '90%', md: '280px', lg:'25%' }} />
-            </FormControl>
-
+            <MainLogo margintop="100px" />
+            <LoginForm />
             <Box component='footer' sx={{
                 display: "flex",
                 flexDirection: 'column',

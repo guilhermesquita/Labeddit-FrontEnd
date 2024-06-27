@@ -1,7 +1,27 @@
 import { Button, FormControl, TextField } from "@mui/material";
 import { Fonts } from '../../fonts';
+import { useForm } from 'react-hook-form'
+import { useLogin } from "../../hooks/loginUser";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css'; 
+import { useTokenManager } from "../../hooks/tokenManager";
 
 export const LoginForm = () => {
+
+    const {register, handleSubmit, formState, reset} = useForm();
+    const {errors, isSubmitting} = formState;
+
+    const [authData] = useLogin()
+    const {getPayload} = useTokenManager()
+
+    const onSubmit = async (data: any) => {
+        const res = await authData(data.email, data.password)
+        if(res.status === 404){
+            return toast.error('Email ou senha incorreta')
+        }
+        await getPayload(res.token)
+    }
+
     return (
         <FormControl sx={{
             display: 'flex',
@@ -14,6 +34,7 @@ export const LoginForm = () => {
         }}>
             <TextField type='email' multiline={false} variant="outlined"
                 size="medium" label='Email'
+                {...register("email", {required: true})}
                 placeholder='Email'
                 sx={{
                     transition: '0.4s',
@@ -25,6 +46,7 @@ export const LoginForm = () => {
 
             <TextField type='password' multiline={false} variant="outlined"
                 size="medium" label='Senha'
+                {...register("password", {required: true})}
                 placeholder='Senha'
                 sx={{
                     transition: '0.4s',
@@ -33,13 +55,16 @@ export const LoginForm = () => {
                     color: "#323941",
                 }}
             />
-            <Button variant="contained" sx={{
+            <Button variant="contained" 
+            onClick={() => handleSubmit(onSubmit)()}
+            sx={{
                 color: 'white',
                 width: { xs: '90%', md: '280px', lg:'25%' },
                 fontFamily: Fonts ? Fonts.NotoSans : 'sans-serif',
                 borderRadius: "50px",
                 transition: '0.4s',
             }}>Entrar</Button>
+            <ToastContainer />
         </FormControl>
     );
 }

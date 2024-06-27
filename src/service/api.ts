@@ -6,15 +6,17 @@ import { BASE_URL } from "../constant/BASE_URL"
 //         // const {name, email, password}
 //         const response = await axios.post(`${BASE_URL}/users`)
 //     } catch (error) {
-        
 //     }
 // }
 
 export const login = async (email: string, password: string) => {
     try {
-        const response = await axios.post(`${BASE_URL}/login`, {email, password})
+        const response = await axios.post(`${BASE_URL}/login`, { email, password })
         return response.data
     } catch (error) {
-        console.log(error)
+        if (axios.isAxiosError(error)) {
+            return error.response;
+        }
+        throw new Error("Could not login user");
     }
 }

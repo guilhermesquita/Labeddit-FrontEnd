@@ -1,9 +1,39 @@
-import { Box, FormControl, TextField } from "@mui/material";
+import { Box, CircularProgress, FormControl, TextField } from "@mui/material";
 import { MainButton } from "../buttons/MainButton";
 import { Politic } from "../politic/Politic";
 import { Fonts } from "../../fonts";
+import { useForm } from "react-hook-form";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
+import { useTokenManager } from "../../hooks/tokenManager";
+import { useRegister } from "../../hooks/registerUser";
+import { useNavigate } from "react-router-dom";
 
 export const RegisterForm = () => {
+
+    const { register, handleSubmit, formState } = useForm();
+    const { isSubmitting } = formState;
+
+    const navigate = useNavigate()
+
+    const [authData] = useRegister()
+    const { getPayload } = useTokenManager()
+
+    const onSubmit = async (data: any) => {
+
+        if(data.password !== data.confirmPassword){
+            return toast.error('As Senhas não conferem!')
+        }
+
+        const res = await authData(data.email, data.password, data.name)
+        if (res.status === 400) {
+            return toast.error('Email já cadastrado')
+        }
+        await getPayload(res.token)
+
+        navigate('/')
+    }
+
     return (
         <FormControl
             sx={{
@@ -37,6 +67,7 @@ export const RegisterForm = () => {
                     }}>
 
                     <TextField type='email' multiline={false} variant="outlined"
+                        {...register("email", {required: true})}
                         size="medium" label='Email'
                         placeholder='Email'
                         sx={{
@@ -49,6 +80,7 @@ export const RegisterForm = () => {
 
                     <TextField type='password' multiline={false} variant="outlined"
                         size="medium" label='Senha'
+                        {...register("password", {required: true})}
                         placeholder='Senha'
                         sx={{
                             transition: '0.4s',
@@ -73,6 +105,7 @@ export const RegisterForm = () => {
                     <TextField type='text' multiline={false} variant="outlined"
                         size="medium" label='Apelido'
                         placeholder='Apelido'
+                        {...register("name", {required: true})}
                         sx={{
                             transition: '0.4s',
                             width: { lg: '100%' },
@@ -84,6 +117,7 @@ export const RegisterForm = () => {
                     <TextField type='password' multiline={false} variant="outlined"
                         size="medium" label='Confirme sua Senha'
                         placeholder='Confirme sua Senha'
+                        {...register("confirmPassword", {required: true})}
                         sx={{
                             transition: '0.4s',
                             width: { lg: '100%' },
@@ -98,11 +132,13 @@ export const RegisterForm = () => {
             <Politic />
 
             <MainButton
-                content="Continuar"
+                onClick={() => handleSubmit(onSubmit)()}
+                content={isSubmitting ? <CircularProgress color="secondary"/> : 'Continuar'}
                 font={Fonts ? Fonts.NotoSans : 'sans-serif'}
                 radius="50px"
                 width={{ xs: '90%', md: '280px', lg: '25%' }}
             />
+            <ToastContainer />
         </FormControl>
     )
 }

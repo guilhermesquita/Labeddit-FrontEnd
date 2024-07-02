@@ -12,15 +12,24 @@ export const LoginForm = () => {
     const { isSubmitting } = formState;
 
     const [authData] = useLogin()
-    const {getPayload} = useTokenManager()
+    const {getPayload, isTokenValid} = useTokenManager()
 
     const onSubmit = async (data: any) => {
-        const res = await authData(data.email, data.password)
-        if(res.status === 404){
-            return toast.error('Email ou senha incorreta')
+        const res = await authData(data.email, data.password);
+
+        if (res.status === 404) {
+            return toast.error('Email ou senha incorreta');
         }
-        await getPayload(res.token)
-    }
+
+        const payload = await getPayload(res.token);
+
+        if (payload && isTokenValid) {
+            toast.success('Login bem-sucedido');
+            alert(isTokenValid);
+        } else {
+            toast.error('Falha ao validar token');
+        }
+    };
 
     return (
         <FormControl sx={{

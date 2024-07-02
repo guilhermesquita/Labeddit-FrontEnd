@@ -1,11 +1,13 @@
+import { useTokenManager } from "../hooks/tokenManager"
 import { Login } from "./Login/Login"
+import { PostList } from "./post-list/PostList"
 
 export const Home = () => {
-    let login = false
+    const { getPayload, isTokenValid, setIsTokenValid, tokenAuth } = useTokenManager()
 
     return (
         <main>
-            {login ? <Login/> : <Login/>}
+            {isTokenValid === true ? <PostList/> : <Login/>}
         </main>
     )
 }

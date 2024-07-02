@@ -1,15 +1,15 @@
-import { Button, FormControl, TextField } from "@mui/material";
+import { Button, CircularProgress, FormControl, TextField } from "@mui/material";
 import { Fonts } from '../../fonts';
 import { useForm } from 'react-hook-form'
 import { useLogin } from "../../hooks/loginUser";
 import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.min.css'; 
+import 'react-toastify/dist/ReactToastify.min.css';
 import { useTokenManager } from "../../hooks/tokenManager";
 
 export const LoginForm = () => {
 
-    const {register, handleSubmit, formState, reset} = useForm();
-    const {errors, isSubmitting} = formState;
+    const {register, handleSubmit, formState} = useForm();
+    const { isSubmitting } = formState;
 
     const [authData] = useLogin()
     const {getPayload} = useTokenManager()
@@ -43,7 +43,6 @@ export const LoginForm = () => {
                     color: "#323941",
                 }}
             />
-
             <TextField type='password' multiline={false} variant="outlined"
                 size="medium" label='Senha'
                 {...register("password", {required: true})}
@@ -55,7 +54,7 @@ export const LoginForm = () => {
                     color: "#323941",
                 }}
             />
-            <Button variant="contained" 
+            <Button variant="contained"
             onClick={() => handleSubmit(onSubmit)()}
             sx={{
                 color: 'white',
@@ -63,7 +62,7 @@ export const LoginForm = () => {
                 fontFamily: Fonts ? Fonts.NotoSans : 'sans-serif',
                 borderRadius: "50px",
                 transition: '0.4s',
-            }}>Entrar</Button>
+            }}>{isSubmitting ? <CircularProgress color="secondary"/> : 'Entrar'}</Button>
             <ToastContainer />
         </FormControl>
     );

@@ -4,6 +4,8 @@ import { useState } from 'react';
 export const useTokenManager = () => {
     const [isTokenValid, setIsTokenValid] = useState<boolean>(false);
 
+    const [tokenAuth, setTokenAuth] = useState('');
+
     const getPayload = async (token: string) => {
         const secretKey = import.meta.env.VITE_JWT_KEY;
 
@@ -15,14 +17,20 @@ export const useTokenManager = () => {
 
         try {
             const { payload } = await jwtVerify(token, secretPassword);
-            setIsTokenValid(true);
-            localStorage.setItem('token', token);
+            
+            if (payload) {
+                setTokenAuth(token)
+                setIsTokenValid(true);
+                localStorage.setItem('token', token);
+            }
+            
             return payload;
         } catch (error) {
             console.error('Token verification failed', error);
+            setIsTokenValid(false);
             return 'Token is invalid';
         }
     };
 
-    return { getPayload, isTokenValid, setIsTokenValid };
+    return { getPayload, isTokenValid, setIsTokenValid, tokenAuth };
 };

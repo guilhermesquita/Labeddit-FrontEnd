@@ -5,6 +5,8 @@ import { useLogin } from "../../hooks/loginUser";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { useTokenManager } from "../../hooks/tokenManager";
+import { useContext } from "react";
+import { Context } from "../../store/AuthContext/AuthContext";
 
 export const LoginForm = () => {
 
@@ -12,23 +14,17 @@ export const LoginForm = () => {
     const { isSubmitting } = formState;
 
     const [authData] = useLogin()
-    const {getPayload, isTokenValid} = useTokenManager()
+    const {getPayload} = useTokenManager()
+
+    const auth = useContext(Context)
 
     const onSubmit = async (data: any) => {
         const res = await authData(data.email, data.password);
-
         if (res.status === 404) {
             return toast.error('Email ou senha incorreta');
         }
-
-        const payload = await getPayload(res.token);
-
-        if (payload && isTokenValid) {
-            toast.success('Login bem-sucedido');
-            alert(isTokenValid);
-        } else {
-            toast.error('Falha ao validar token');
-        }
+        auth?.handleLogin()
+        await getPayload(res.token);
     };
 
     return (
@@ -71,7 +67,7 @@ export const LoginForm = () => {
                 fontFamily: Fonts ? Fonts.NotoSans : 'sans-serif',
                 borderRadius: "50px",
                 transition: '0.4s',
-            }}>{isSubmitting ? <CircularProgress color="secondary"/> : 'Entrar'}</Button>
+            }}>{isSubmitting ? <CircularProgress color="secondary" size={25}/> : 'Entrar'}</Button>
             <ToastContainer />
         </FormControl>
     );

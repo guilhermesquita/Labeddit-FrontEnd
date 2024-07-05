@@ -1,4 +1,4 @@
-import { login, register } from "../service/api"
+import { register } from "../service/api"
 
 export const useRegister = () => {
     const authData = async(email: string, password: string, name: string) => {

@@ -1,15 +1,12 @@
-import { useTokenManager } from "../../hooks/tokenManager"
+import { useContext } from "react";
+import { Context } from "../../store/AuthContext/AuthContext";
 
 export const PostList = () => {
-
-    const { getPayload, isTokenValid, setIsTokenValid, tokenAuth } = useTokenManager();
-
+    const auth = useContext(Context)
     const exitUser = () => {
-        alert(isTokenValid)
-        setIsTokenValid(false)
+        auth?.setAuthenticated(false)
     }
-
     return(
-        <button onClick={() => exitUser()}>Home Page</button>
+        <button onClick={() => exitUser()}>loggout</button>
     )
 }

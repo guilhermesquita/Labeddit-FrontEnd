@@ -1,4 +1,5 @@
 import { AppRouter } from "./routes/router";
+import { AuthProvider } from "./store/AuthContext/AuthContext";
 
 export const App = () => {
     return (
@@ -15,6 +16,8 @@ export const App = () => {
 
         //     </GlobalStyles>
         // </BrowserRouter>
-        <AppRouter/>
+        <AuthProvider>
+            <AppRouter />
+        </AuthProvider>
     );
 };

@@ -5,9 +5,10 @@ import { Fonts } from "../../fonts";
 import { useForm } from "react-hook-form";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
-import { useTokenManager } from "../../hooks/tokenManager";
 import { useRegister } from "../../hooks/registerUser";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { Context } from "../../store/AuthContext/AuthContext";
 
 export const RegisterForm = () => {
 
@@ -16,8 +17,9 @@ export const RegisterForm = () => {
 
     const navigate = useNavigate()
 
+    const auth = useContext(Context)
+
     const [authData] = useRegister()
-    const { getPayload } = useTokenManager()
 
     const onSubmit = async (data: any) => {
 
@@ -29,8 +31,7 @@ export const RegisterForm = () => {
         if (res.status === 400) {
             return toast.error('Email já cadastrado')
         }
-        await getPayload(res.token)
-
+        auth?.getPayload(res.token)
         navigate('/')
     }
 

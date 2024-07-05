@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form'
 import { useLogin } from "../../hooks/loginUser";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
-import { useTokenManager } from "../../hooks/tokenManager";
 import { useContext } from "react";
 import { Context } from "../../store/AuthContext/AuthContext";
 
@@ -14,7 +13,6 @@ export const LoginForm = () => {
     const { isSubmitting } = formState;
 
     const [authData] = useLogin()
-    const {getPayload} = useTokenManager()
 
     const auth = useContext(Context)
 
@@ -24,7 +22,7 @@ export const LoginForm = () => {
             return toast.error('Email ou senha incorreta');
         }
         auth?.handleLogin()
-        await getPayload(res.token);
+        await auth?.getPayload(res.token)
     };
 
     return (

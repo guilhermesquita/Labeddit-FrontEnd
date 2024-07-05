@@ -7,11 +7,9 @@ export const Home = () => {
     const auth = useContext(Context)
 
     useEffect(() => {
-        async () => {
-            const token = localStorage.getItem('token') as string
-            if (token) {
-                await auth?.getPayload(token)
-            }
+        const token = localStorage.getItem('token') as string
+        if (token) {
+            auth?.getPayload(token)
         }
     }, [])
 

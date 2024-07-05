@@ -38,6 +38,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             const { payload } = await jwtVerify(token, secretPassword);
             localStorage.setItem('token', token);
             setToken(token)
+            setAuthenticated(true);
             return payload;
         } catch (error) {
             setToken('')

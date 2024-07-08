@@ -1,5 +1,7 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { Context } from "../../store/AuthContext/AuthContext";
+import { Header } from "../../components/header/Header";
+import { Box } from "@mui/material";
 
 export const PostList = () => {
     const auth = useContext(Context)
@@ -8,7 +10,12 @@ export const PostList = () => {
         localStorage.removeItem('token')
     }
 
-    return(
-        <button onClick={() => exitUser()}>loggout</button>
+    return (
+        <Box component='main' sx={{
+            width: '100%',
+            // border: '1px solid black',
+        }}>
+            <Header/>
+        </Box>
     )
 }

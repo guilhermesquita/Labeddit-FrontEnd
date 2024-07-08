@@ -1,7 +1,7 @@
 import { register } from "../service/api"
 
 export const useRegister = () => {
-    const authData = async(email: string, password: string, name: string) => {
+    const registerData = async(email: string, password: string, name: string) => {
         try {
             const body = {
                 email,
@@ -15,5 +15,5 @@ export const useRegister = () => {
         }
     }
 
-    return [authData]
+    return [registerData]
 }  

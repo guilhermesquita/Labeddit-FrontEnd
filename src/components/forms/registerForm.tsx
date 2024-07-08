@@ -19,7 +19,7 @@ export const RegisterForm = () => {
 
     const auth = useContext(Context)
 
-    const [authData] = useRegister()
+    const [registerData] = useRegister()
 
     const onSubmit = async (data: any) => {
 
@@ -27,7 +27,7 @@ export const RegisterForm = () => {
             return toast.error('As Senhas não conferem!')
         }
 
-        const res = await authData(data.email, data.password, data.name)
+        const res = await registerData(data.email, data.password, data.name)
         if (res.status === 400) {
             return toast.error('Email já cadastrado')
         }

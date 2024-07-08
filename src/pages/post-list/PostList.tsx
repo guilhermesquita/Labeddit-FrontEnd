@@ -1,21 +1,24 @@
-import { useContext } from "react";
-import { Context } from "../../store/AuthContext/AuthContext";
 import { Header } from "../../components/header/Header";
 import { Box } from "@mui/material";
+import { NewPostForm } from "../../components/createPost/CreatePostForm";
 
 export const PostList = () => {
-    const auth = useContext(Context)
-    const exitUser = () => {
-        auth?.setAuthenticated(false)
-        localStorage.removeItem('token')
-    }
 
     return (
         <Box component='main' sx={{
             width: '100%',
             // border: '1px solid black',
         }}>
-            <Header/>
+            <Header />
+            <Box component='section' sx={{
+                width: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                paddingTop: '30px',
+            }}>
+                <NewPostForm/>
+            </Box>
         </Box>
     )
 }

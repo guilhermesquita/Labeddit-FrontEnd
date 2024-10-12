@@ -1,6 +1,7 @@
 import { Header } from "../../components/header/Header";
 import { Box, Divider } from "@mui/material";
 import { NewPostForm } from "../../components/createPost/CreatePostForm";
+import { Post } from "../../components/post/Post";
 
 export const PostList = () => {
   return (
@@ -23,8 +24,9 @@ export const PostList = () => {
         }}
       >
         <NewPostForm />
-      </Box>
 
+        <Post />
+      </Box>
     </Box>
   );
 };

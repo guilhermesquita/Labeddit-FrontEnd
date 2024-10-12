@@ -34,3 +34,19 @@ export const login = async (user: IUserLogin) => {
         throw new Error("Could not login user");
     }
 }
+
+export const getPosts = async() => {
+    try {
+        const response = await axios.get(`${BASE_URL}/posts`, {
+            headers: {
+                Authorization: `${localStorage.getItem('token')}`,
+            }
+        })
+        return response.data
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            return error.response;
+        }
+        throw new Error("Could not get posts");
+    }
+}

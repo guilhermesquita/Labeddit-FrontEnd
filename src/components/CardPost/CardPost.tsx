@@ -7,7 +7,7 @@ import { CommentIcon } from "../../assets/icons/CommentIcon";
 type CardProps = {
   post: {
     id: number;
-    rl_user: string;
+    name_user: string;
     content: string;
     comments: string;
     like: string;
@@ -40,11 +40,11 @@ export const CardPost = ({ post }: CardProps) => {
           fontWeight: "regular",
         }}
       >
-        Enviado por: {post.rl_user}
+        Enviado por: {post.name_user}
       </Box>
       <Box
         component={"div"}
-        key={post.rl_user}
+        key={post.name_user}
         sx={{
           fontSize: "20px",
           fontFamily: Fonts ? Fonts.IbmPlexSans : "sans-serif",

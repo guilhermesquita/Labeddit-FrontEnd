@@ -37,7 +37,7 @@ export const Post = () => {
     >
       {posts.map((post) => {
         return (
-          <CardPost post={{id: post.id, content: post.content, rl_user: post.rl_user, comments: post.comments, like: post.like}}/>
+          <CardPost post={{id: post.id, content: post.content, name_user: post.name, comments: post.comments, like: post.like}}/>
         );
       })}
     </Box>

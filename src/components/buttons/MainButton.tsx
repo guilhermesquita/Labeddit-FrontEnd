@@ -4,9 +4,9 @@ import { Id } from 'react-toastify';
 interface IProps {
     content: string | JSX.Element;
     font: string;
-    width: TWidth; // Adjusted to accept breakpoints
+    width: TWidth; 
     radius: string;
-    onClick?: () => void; // Add event handler for button click if needed.
+    onClick?: () => void; 
 }
 
 export type TWidth = { xs?: string, sm?: string, md?: string, lg?: string }

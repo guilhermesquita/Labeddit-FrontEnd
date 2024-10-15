@@ -51,7 +51,8 @@ export const NewPostForm = () => {
           sx={{
 
             borderBottomWidth: 2,
-            marginTop: "30px",
+            marginTop: "20px",
+            marginBottom: "20px",
             borderColor: "primary.main",
             width: "100%",
           }}

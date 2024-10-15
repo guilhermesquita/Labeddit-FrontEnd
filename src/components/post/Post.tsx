@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useGetPosts } from "../../hooks/getPosts";
 import { AxiosError } from "axios";
 import { toast, ToastContainer } from "react-toastify";
+import { CardPost } from "../CardPost/CardPost";
 
 export const Post = () => {
   const [listPosts] = useGetPosts();
@@ -36,12 +37,7 @@ export const Post = () => {
     >
       {posts.map((post) => {
         return (
-          <Box
-            key={post.id}
-          >
-            enviado por: {post.rl_user}
-            {post.content}
-          </Box>
+          <CardPost post={{id: post.id, content: post.content, rl_user: post.rl_user, comments: post.comments, like: post.like}}/>
         );
       })}
     </Box>

@@ -9,6 +9,7 @@ export const AppRouter = () => {
             <Route path="/" element={<Home />} />
             <Route path="/users/register" element={<Register />} />
             <Route path="/posts/:idPost" element={<PostDetail typePost="post"/>}/>
+            <Route path="/comments/:idPost" element={<PostDetail typePost="comment"/>}/>
         </Routes>
     )
 }

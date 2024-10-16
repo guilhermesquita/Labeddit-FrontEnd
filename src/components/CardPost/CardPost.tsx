@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Box } from "@mui/material";
 import { Fonts } from "../../fonts";
 import { LikeIcon } from "../../assets/icons/LikeIcon";
@@ -17,7 +18,19 @@ type CardProps = {
 };
 
 export const CardPost = ({ post }: CardProps) => {
-  const navigation = useNavigate();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const handlePopState = () => {
+      location.reload(); // Recarrega a página quando voltar no histórico
+    };
+
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, []);
 
   return (
     <Box
@@ -122,10 +135,16 @@ export const CardPost = ({ post }: CardProps) => {
               backgroundColor: "#F2F2F2",
             },
           }}
-          onClick={() =>
-            post.type === "post"
-              ? navigation(`/posts/${post.id}`)
-              : navigation(`/comments/${post.id}`)
+          onClick={
+            () => {
+              if (post.type === "post") {
+                navigate(`/posts/${post.id}`);
+              }
+              if (post.type === "comment") {
+                navigate(`/comments/${post.id}`);
+                location.reload();
+              }
+            }
           }
         >
           <div

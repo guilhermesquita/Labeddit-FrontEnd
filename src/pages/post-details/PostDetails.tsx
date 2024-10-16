@@ -7,29 +7,57 @@ import { useGetPosts } from "../../hooks/getPosts";
 import { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { Fonts } from "../../fonts";
+import { useGetCommentsByPostComment } from "../../hooks/getCommentsByIdPostComment";
+import { useGetComments } from "../../hooks/getCommentsAll";
 
 type typeProps = {
-  typePost: string
-}
+  typePost: string;
+};
 
-export const PostDetail = ({typePost}: typeProps) => {
+export const PostDetail = ({ typePost }: typeProps) => {
   const { idPost } = useParams();
 
   const [post, setPost] = useState<any>();
 
+  const [comments, setComments] = useState<any[]>();
+
+  const [loading, setLoading] = useState(false);
+
   const [listPosts] = useGetPosts();
+  const [listComment] = useGetCommentsByPostComment();
+  const [listComments] = useGetComments();
 
   useEffect(() => {
-    if(typePost === "post") {
+    console.log(typePost);
+    if (typePost === "post") {
       const getPost = async () => {
         const post = await listPosts(idPost);
         if (post instanceof AxiosError) {
-          return toast.error("asas");
+          return toast.error("Não foi possível ver os comentários!");
         } else {
           setPost(post);
+          const comments = await listComment(idPost as string);
+          setComments(comments);
+          setLoading(true);
         }
       };
       getPost();
+    }
+    if (typePost === "comment") {
+      const getComment = async () => {
+        const comment = await listComments(idPost);
+        if (comment instanceof AxiosError) {
+          return toast.error("Não foi possível ver os comentários!");
+        } else {
+          setPost(comment);
+          console.log(idPost)
+          const comments = await listComment(idPost as string);
+          console.log(comments);
+          setComments(comments);
+          setLoading(true);
+        }
+      };
+      getComment();
     }
     // const getPost = async () => {
     //   const post = await listPosts(idPost);
@@ -42,7 +70,7 @@ export const PostDetail = ({typePost}: typeProps) => {
     // getPost();
   }, []);
 
-  if (post === undefined) {
+  if (post === undefined || comments === undefined) {
     return <h1>carregando...</h1>;
   }
 
@@ -79,7 +107,7 @@ export const PostDetail = ({typePost}: typeProps) => {
               name_user: post?.name,
               comments: post?.comments,
               like: post?.like,
-              type: 'post'
+              type: "post",
             }}
           />
         </Box>
@@ -119,17 +147,41 @@ export const PostDetail = ({typePost}: typeProps) => {
             Responder
           </Button>
           <Divider
-          sx={{
-
-            borderBottomWidth: 2,
-            marginTop: "10px",
-            marginBottom: "20px",
-            borderColor: "primary.main",
-            width: "100%",
-          }}
-        ></Divider>
+            sx={{
+              borderBottomWidth: 2,
+              marginTop: "10px",
+              marginBottom: "20px",
+              borderColor: "primary.main",
+              width: "100%",
+            }}
+          ></Divider>
         </Box>
-        
+        <Box
+          sx={{
+            width: "30%",
+            display: "flex",
+            gap: "10px",
+            flexDirection: "column",
+          }}
+        >
+          {comments
+            ? comments.map((comment) => {
+                return (
+                  <CardPost
+                    key={comment.id}
+                    post={{
+                      id: comment.id,
+                      content: comment.content,
+                      name_user: comment.name,
+                      comments: comment.comments,
+                      like: comment.like,
+                      type: "comment",
+                    }}
+                  />
+                );
+              })
+            : null}
+        </Box>
       </Box>
     </Box>
     // <Box

@@ -35,9 +35,13 @@ export const login = async (user: IUserLogin) => {
     }
 }
 
-export const getPosts = async() => {
+export const getPosts = async(id?: string) => {
     try {
-        const response = await axios.get(`${BASE_URL}/posts`, {
+        const response = !id ? await axios.get(`${BASE_URL}/posts`, {
+            headers: {
+                Authorization: `${localStorage.getItem('token')}`,
+            }
+        }) : await axios.get(`${BASE_URL}/posts/?q=${id}`, {
             headers: {
                 Authorization: `${localStorage.getItem('token')}`,
             }

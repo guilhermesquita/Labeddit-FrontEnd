@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useGetPosts } from "../../hooks/getPosts";
 import { AxiosError } from "axios";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { CardPost } from "../CardPost/CardPost";
 
 export const Post = () => {
@@ -10,16 +10,15 @@ export const Post = () => {
   const [posts, setPosts] = useState<any[] | undefined>();
 
   useEffect(() => {
-    const teste = async () => {
+    const getPosts = async () => {
       const post = await listPosts();
-      console.log(post);
       if (post instanceof AxiosError) {
         return toast.error("asas");
       } else {
         setPosts(post);
       }
     };
-    teste();
+    getPosts();
   });
 
   if (posts === undefined) {

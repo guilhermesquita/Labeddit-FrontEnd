@@ -1,8 +1,9 @@
-import { Box, Button } from "@mui/material";
+import { Box } from "@mui/material";
 import { Fonts } from "../../fonts";
 import { LikeIcon } from "../../assets/icons/LikeIcon";
 import { DislikeIcon } from "../../assets/icons/dislikeIcon";
 import { CommentIcon } from "../../assets/icons/CommentIcon";
+import { useNavigate } from "react-router-dom";
 
 type CardProps = {
   post: {
@@ -15,6 +16,9 @@ type CardProps = {
 };
 
 export const CardPost = ({ post }: CardProps) => {
+
+  const navigation = useNavigate()
+
   return (
     <Box
       component={"div"}
@@ -118,7 +122,7 @@ export const CardPost = ({ post }: CardProps) => {
                 backgroundColor: "#F2F2F2",
             }
           }}
-          onClick={() => alert("Comentar")}
+          onClick={() => navigation(`/posts/${post.id}`)}
         >
           <div
             style={{

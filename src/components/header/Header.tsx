@@ -41,6 +41,7 @@ export const Header = () => {
                 cursor: "pointer",
                 color: '#4088CB',
                 transition: "0.5s",
+                fontWeight: "600",
                 fontFamily: Fonts ? Fonts.NotoSans : 'sans-serif',
                 ":hover": {
                     color: '#22639E'

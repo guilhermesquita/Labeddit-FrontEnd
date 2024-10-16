@@ -12,12 +12,12 @@ type CardProps = {
     content: string;
     comments: string;
     like: string;
+    type: string;
   };
 };
 
 export const CardPost = ({ post }: CardProps) => {
-
-  const navigation = useNavigate()
+  const navigation = useNavigate();
 
   return (
     <Box
@@ -119,10 +119,14 @@ export const CardPost = ({ post }: CardProps) => {
             cursor: "pointer",
             transition: "0.3s",
             ":hover": {
-                backgroundColor: "#F2F2F2",
-            }
+              backgroundColor: "#F2F2F2",
+            },
           }}
-          onClick={() => navigation(`/posts/${post.id}`)}
+          onClick={() =>
+            post.type === "post"
+              ? navigation(`/posts/${post.id}`)
+              : navigation(`/comments/${post.id}`)
+          }
         >
           <div
             style={{

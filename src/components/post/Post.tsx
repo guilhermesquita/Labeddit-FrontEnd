@@ -36,7 +36,16 @@ export const Post = () => {
     >
       {posts.map((post) => {
         return (
-          <CardPost post={{id: post.id, content: post.content, name_user: post.name, comments: post.comments, like: post.like}}/>
+          <CardPost
+            post={{
+              id: post.id,
+              content: post.content,
+              name_user: post.name,
+              comments: post.comments,
+              like: post.like,
+              type: 'post',
+            }}
+          />
         );
       })}
     </Box>

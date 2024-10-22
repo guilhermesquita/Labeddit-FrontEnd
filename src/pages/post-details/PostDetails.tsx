@@ -9,6 +9,8 @@ import { toast } from "react-toastify";
 import { Fonts } from "../../fonts";
 import { useGetCommentsByPostComment } from "../../hooks/getCommentsByIdPostComment";
 import { useGetComments } from "../../hooks/getCommentsAll";
+import { LikedIcon } from "../../assets/icons/LikedIcon";
+import { DislikedIcon } from "../../assets/icons/dislikedIcon";
 
 type typeProps = {
   typePost: string;
@@ -50,7 +52,7 @@ export const PostDetail = ({ typePost }: typeProps) => {
           return toast.error("Não foi possível ver os comentários!");
         } else {
           setPost(comment);
-          console.log(idPost)
+          console.log(idPost);
           const comments = await listComment(idPost as string);
           console.log(comments);
           setComments(comments);
@@ -181,37 +183,21 @@ export const PostDetail = ({ typePost }: typeProps) => {
                 );
               })
             : null}
+          {comments.length === 0 ? (
+            <Box component='p' sx={{
+              fontSize: "15px",
+              color: "#555555",
+              margin: "10px",
+              textAlign: "center",
+              fontWeight: "regular",
+              fontFamily: Fonts ? Fonts.IbmPlexSans : "sans-serif",
+              padding: "10px",
+            }}>
+              Seja o primeiro a comentar!
+            </Box>
+          ) : null}
         </Box>
       </Box>
     </Box>
-    // <Box
-    //   component="main"
-    //   sx={{
-    //     width: "100%",
-    //     // border: '1px solid black',
-    //   }}
-    // >
-    //   <Header />
-    //   <Box
-    //     component="section"
-    //     sx={{
-    //       width: "100%",
-    //       display: "flex",
-    //       flexDirection: "column",
-    //       alignItems: "center",
-    //       paddingTop: "30px",
-    //     }}
-    //   >
-    //     <CardPost
-    //       post={{
-    //         comments: "12",
-    //         content: "balabasldass",
-    //         id: 1,
-    //         like: "10",
-    //         name_user: "guilherme",
-    //       }}
-    //     />
-    //   </Box>
-    // </Box>
   );
 };

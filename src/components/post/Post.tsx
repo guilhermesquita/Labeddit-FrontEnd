@@ -37,13 +37,14 @@ export const Post = () => {
       {posts.map((post) => {
         return (
           <CardPost
+            key={post.id}
             post={{
               id: post.id,
               content: post.content,
               name_user: post.name,
               comments: post.comments,
               like: post.like,
-              type: 'post',
+              type: "post",
             }}
           />
         );

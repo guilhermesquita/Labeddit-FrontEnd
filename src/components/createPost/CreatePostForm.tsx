@@ -1,9 +1,29 @@
-import { Box, Button, Divider, TextField } from "@mui/material";
+import { Box, Button, Divider, FormControl, TextField } from "@mui/material";
 import { Fonts } from "../../fonts";
+import { useForm } from "react-hook-form";
+import { useCreatePost } from "../../hooks/createPost";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 
 export const NewPostForm = () => {
+  const { register, handleSubmit, formState, reset } = useForm();
+  // const { isSubmitting } = formState
+
+  const [createNewPost] = useCreatePost();
+
+  const onSubmit = async (data: any) => {
+    const createPost = await createNewPost(data.content);
+    if (createPost.status === 500) {
+      return toast.error(
+        "Não foi possível fazer a postagem. Tente novamente mais tarde!"
+      );
+    }
+    reset();
+    window.location.reload();
+  };
+
   return (
-    <Box
+    <FormControl
       sx={{
         width: "30%",
         display: "flex",
@@ -15,6 +35,7 @@ export const NewPostForm = () => {
         multiline
         rows={5}
         fullWidth
+        {...register("content", { required: true })}
         placeholder="Escreva seu post..."
         sx={{
           backgroundColor: "secondary.main",
@@ -24,7 +45,7 @@ export const NewPostForm = () => {
 
       <Button
         variant="contained"
-        // onClick={() => handleSubmit(onSubmit)()}
+        onClick={() => handleSubmit(onSubmit)()}
         sx={{
           color: "white",
           width: { xs: "90%", md: "280px", lg: "100%" },
@@ -49,7 +70,6 @@ export const NewPostForm = () => {
       >
         <Divider
           sx={{
-
             borderBottomWidth: 2,
             marginTop: "20px",
             marginBottom: "20px",
@@ -58,6 +78,6 @@ export const NewPostForm = () => {
           }}
         ></Divider>
       </Box>
-    </Box>
+    </FormControl>
   );
 };

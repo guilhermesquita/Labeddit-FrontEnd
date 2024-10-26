@@ -174,6 +174,46 @@ export const deleteLikePost = async (body: ICreateAndDeleteLikePost) => {
   }
 };
 
+//Likes e dislikes
+export const createDislikePost = async (body: ICreateAndDeleteLikePost) => {
+  try {
+    const response = await axios.post(
+      `${BASE_URL}/likes-dislikes/dislike/posts`, body,
+      {
+        headers: {
+          Authorization: `${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return error.response;
+    }
+    throw new Error("Could not dislike post");
+  }
+};
+
+export const deleteDislikePost = async (body: ICreateAndDeleteLikePost) => {
+  try {
+    const response = await axios.delete(
+      `${BASE_URL}/likes-dislikes/dislike/posts`,
+      {
+        headers: {
+          Authorization: `${localStorage.getItem("token")}`,
+        },
+        data: body,
+      }
+    );
+    return response;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return error.response;
+    }
+    throw new Error("Could not delete dislike on post");
+  }
+};
+
 export const listLikeDislikePostByPostAndUser = async ({
   rl_post,
   rl_user,

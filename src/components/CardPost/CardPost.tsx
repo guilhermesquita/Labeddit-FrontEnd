@@ -11,6 +11,8 @@ import { idUser } from "../../service/api";
 import { useCreateLikePost } from "../../hooks/createLike";
 import { useRemoveLikePost } from "../../hooks/removeLike";
 import { useGetLikeDislikePost } from "../../hooks/getLikeDislikePost";
+import { useCreateDislikePost } from "../../hooks/createDislike";
+import { useRemoveDislikePost } from "../../hooks/removeDislike";
 
 type CardProps = {
   post: {
@@ -31,7 +33,9 @@ export const CardPost = ({ post }: CardProps) => {
   const [disliked, setDisliked] = useState(false);
 
   const [sendLikePost] = useCreateLikePost();
+  const [sendDislikePost] = useCreateDislikePost();
   const [removeLikePost] = useRemoveLikePost();
+  const [removeDislikePost] = useRemoveDislikePost();
 
   const [getLikeDislikePost] = useGetLikeDislikePost();
 
@@ -48,21 +52,23 @@ export const CardPost = ({ post }: CardProps) => {
   }, []);
 
   useEffect(() => {
-    const listLikesAndDislikes = async () => {
-      const userId = idUser as string;
-      const likeDislikePost = await getLikeDislikePost({
-        rl_post: post.id,
-        rl_user: userId,
-      });
-      if (likeDislikePost.length > 0) {
-        if (likeDislikePost[0].like === 1) {
-          setLiked(true);
-        } else {
-          setDisliked(true);
+    if (post.type === "post") {
+      const listLikesAndDislikes = async () => {
+        const userId = idUser as string;
+        const likeDislikePost = await getLikeDislikePost({
+          rl_post: post.id,
+          rl_user: userId,
+        });
+        if (likeDislikePost.length > 0) {
+          if (likeDislikePost[0].like === 1) {
+            setLiked(true);
+          } else {
+            setDisliked(true);
+          }
         }
-      }
-    };
-    listLikesAndDislikes();
+      };
+      listLikesAndDislikes();
+    }
   }, []);
 
   const handleLikePostOrComment = async (idPostComment: string) => {
@@ -79,14 +85,22 @@ export const CardPost = ({ post }: CardProps) => {
     }
   };
 
-  const handleDislikePost = async () => {
-    if (!disliked) {
-      setDisliked(true);
-      setLiked(false);
-      // chamar a API
-    } else {
-      setDisliked(false);
-      // chamar a API
+  const handleDislikePost = async (idPostComment: string) => {
+    const userId = idUser as string;
+    if (post.type === "post") {
+      if (liked) {
+        setLiked(false);
+        setDisliked(true);
+        await removeLikePost(post.id, userId);
+      }
+      if (!disliked) {
+        setDisliked(true);
+        setLiked(false);
+        await sendDislikePost(idPostComment, userId);
+      } else {
+        setDisliked(false);
+        await removeDislikePost(idPostComment, userId);
+      }
     }
   };
 
@@ -177,8 +191,7 @@ export const CardPost = ({ post }: CardProps) => {
                 marginTop: "5px",
               }}
               onClick={() => {
-                setDisliked(!disliked);
-                setLiked(false);
+                handleDislikePost(post.id);
               }}
             >
               {disliked ? <DislikedIcon /> : <DislikeIcon />}

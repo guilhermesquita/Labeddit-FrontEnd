@@ -42,6 +42,7 @@ export const Post = () => {
               id: post.id,
               content: post.content,
               name_user: post.name,
+              rl_user: post.rl_user,
               comments: post.comments,
               like: post.like,
               type: "post",

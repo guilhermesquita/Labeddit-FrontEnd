@@ -13,8 +13,19 @@ interface IUserLogin {
   password: string;
 }
 
-const idUser = await getIdByToken();
+interface ICreateAndDeleteLikePost {
+  rl_post: string;
+  rl_user: string;
+}
 
+export interface IListLikeDislikePostByPostAndUser {
+  rl_post: string;
+  rl_user: string;
+}
+
+export const idUser = await getIdByToken();
+
+//AUTH
 export const register = async (user: IUserRegister) => {
   try {
     const response = await axios.post(`${BASE_URL}/users`, user);
@@ -39,6 +50,7 @@ export const login = async (user: IUserLogin) => {
   }
 };
 
+//Posts e comentários
 export const getPosts = async (id?: string) => {
   try {
     const response = !id
@@ -101,21 +113,85 @@ export const getCommentsByPostCommentId = async (id: string) => {
 
 export const createPost = async (content: string) => {
   try {
-    const response = await axios.post(`${BASE_URL}/posts`, {
-      "content": content,
-      "rl_user": idUser,
-    }, {
-      headers: {
-        Authorization: `${localStorage.getItem("token")}`,
+    const response = await axios.post(
+      `${BASE_URL}/posts`,
+      {
+        content: content,
+        rl_user: idUser,
+      },
+      {
+        headers: {
+          Authorization: `${localStorage.getItem("token")}`,
+        },
       }
-    });
+    );
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.log(idUser);
       return error.response;
     }
     throw new Error("Could not get posts");
   }
 };
 
+//Likes e dislikes
+export const createLikePost = async (body: ICreateAndDeleteLikePost) => {
+  try {
+    const response = await axios.post(
+      `${BASE_URL}/likes-dislikes/like/posts`, body,
+      {
+        headers: {
+          Authorization: `${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return error.response;
+    }
+    throw new Error("Could not like post");
+  }
+};
+
+export const deleteLikePost = async (body: ICreateAndDeleteLikePost) => {
+  try {
+    const response = await axios.delete(
+      `${BASE_URL}/likes-dislikes/like/posts`,
+      {
+        headers: {
+          Authorization: `${localStorage.getItem("token")}`,
+        },
+        data: body,
+      }
+    );
+    return response;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return error.response;
+    }
+    throw new Error("Could not delete like on post");
+  }
+};
+
+export const listLikeDislikePostByPostAndUser = async ({
+  rl_post,
+  rl_user,
+}: IListLikeDislikePostByPostAndUser) => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/likes-dislikes/like/dislike/post/${rl_post}/${rl_user}`,
+      {
+        headers: {
+          Authorization: `${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return error.response;
+    }
+    throw new Error("Could not delete like on post");
+  }
+};

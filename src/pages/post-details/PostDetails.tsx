@@ -30,7 +30,6 @@ export const PostDetail = ({ typePost }: typeProps) => {
   const [listComments] = useGetComments();
 
   useEffect(() => {
-    console.log(typePost);
     if (typePost === "post") {
       const getPost = async () => {
         const post = await listPosts(idPost);
@@ -107,6 +106,7 @@ export const PostDetail = ({ typePost }: typeProps) => {
               id: post?.id,
               content: post?.content,
               name_user: post?.name,
+              rl_user: post?.rl_user,
               comments: post?.comments,
               like: post?.like,
               type: "post",
@@ -175,6 +175,7 @@ export const PostDetail = ({ typePost }: typeProps) => {
                       id: comment.id,
                       content: comment.content,
                       name_user: comment.name,
+                      rl_user: comment.rl_user,
                       comments: comment.comments,
                       like: comment.like,
                       type: "comment",
@@ -184,15 +185,18 @@ export const PostDetail = ({ typePost }: typeProps) => {
               })
             : null}
           {comments.length === 0 ? (
-            <Box component='p' sx={{
-              fontSize: "15px",
-              color: "#555555",
-              margin: "10px",
-              textAlign: "center",
-              fontWeight: "regular",
-              fontFamily: Fonts ? Fonts.IbmPlexSans : "sans-serif",
-              padding: "10px",
-            }}>
+            <Box
+              component="p"
+              sx={{
+                fontSize: "15px",
+                color: "#555555",
+                margin: "10px",
+                textAlign: "center",
+                fontWeight: "regular",
+                fontFamily: Fonts ? Fonts.IbmPlexSans : "sans-serif",
+                padding: "10px",
+              }}
+            >
               Seja o primeiro a comentar!
             </Box>
           ) : null}

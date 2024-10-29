@@ -90,7 +90,10 @@ export const CardPost = ({ post }: CardProps) => {
     if (post.type === "post") {
       if (!liked) {
         setLiked(true);
-        setDisliked(false);
+        if(disliked){
+          setDisliked(false);
+          await removeDislikePost(post.id, userId);
+        }
         setTotalLikes(Number(totalLikes) + 1)
         await sendLikePost(idPostComment, userId);
       } else {
@@ -102,7 +105,10 @@ export const CardPost = ({ post }: CardProps) => {
     if(post.type === 'comment') {
       if (!liked) {
         setLiked(true);
-        setDisliked(false);
+        if(disliked){
+          setDisliked(false);
+          await removeDislikeComment(post.id, userId);
+        }
         setTotalLikes(Number(totalLikes) + 1)
         await sendLikeComment(post.id, userId);
       } else {

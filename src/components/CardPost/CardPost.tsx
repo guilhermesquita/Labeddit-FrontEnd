@@ -125,6 +125,7 @@ export const CardPost = ({ post }: CardProps) => {
       if (liked) {
         setLiked(false);
         setDisliked(true);
+        setTotalLikes(Number(totalLikes) - 1)
         await removeLikePost(post.id, userId);
       }
       if (!disliked) {

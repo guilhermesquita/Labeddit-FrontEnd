@@ -17,6 +17,8 @@ import { useCreateLikeComment } from "../../hooks/createLikeComment";
 import { useRemoveLikeComment } from "../../hooks/removeLikeComment";
 import { useCreateDislikeComment } from "../../hooks/createDislikeComment";
 import { useRemoveDislikeComment } from "../../hooks/removeDislikeComment";
+import { useGetCommentsByPostComment } from "../../hooks/getCommentsByIdPostComment";
+import { useGetLikeDislikeComment } from "../../hooks/getLikeDislikeComment";
 
 type CardProps = {
   post: {
@@ -33,7 +35,7 @@ type CardProps = {
 export const CardPost = ({ post }: CardProps) => {
   const navigate = useNavigate();
 
-  const [totalLikes, setTotalLikes] = useState<number|null>(null)
+  const [totalLikes, setTotalLikes] = useState<number | null>(null);
 
   const [liked, setLiked] = useState(false);
   const [disliked, setDisliked] = useState(false);
@@ -43,7 +45,7 @@ export const CardPost = ({ post }: CardProps) => {
 
   const [removeLikePost] = useRemoveLikePost();
   const [removeDislikePost] = useRemoveDislikePost();
-  
+
   const [sendLikeComment] = useCreateLikeComment();
   const [sendDislikeComment] = useCreateDislikeComment();
 
@@ -51,9 +53,10 @@ export const CardPost = ({ post }: CardProps) => {
   const [removeDislikeComment] = useRemoveDislikeComment();
 
   const [getLikeDislikePost] = useGetLikeDislikePost();
+  const [getLikeDislikeComment] = useGetLikeDislikeComment();
 
   useEffect(() => {
-    setTotalLikes(Number(post.like))
+    setTotalLikes(Number(post.like));
     const handlePopState = () => {
       location.reload();
     };
@@ -76,7 +79,26 @@ export const CardPost = ({ post }: CardProps) => {
         if (likeDislikePost.length > 0) {
           if (likeDislikePost[0].like === 1) {
             setLiked(true);
-          } else {
+          } 
+          if (likeDislikePost[0].like === 0) {
+            setDisliked(true);
+          } 
+        }
+      };
+      listLikesAndDislikes();
+    }
+    if (post.type === "comment") {
+      const listLikesAndDislikes = async () => {
+        const userId = idUser as string;
+        const likeDislikeComment = await getLikeDislikeComment({
+          rl_comment: post.id,
+          rl_user: userId,
+        });
+        if (likeDislikeComment.length > 0) {
+          if (likeDislikeComment[0].like === 1) {
+            setLiked(true);
+          }
+          if (likeDislikeComment[0].like === 0) {
             setDisliked(true);
           }
         }
@@ -90,30 +112,30 @@ export const CardPost = ({ post }: CardProps) => {
     if (post.type === "post") {
       if (!liked) {
         setLiked(true);
-        if(disliked){
+        if (disliked) {
           setDisliked(false);
           await removeDislikePost(post.id, userId);
         }
-        setTotalLikes(Number(totalLikes) + 1)
+        setTotalLikes(Number(totalLikes) + 1);
         await sendLikePost(idPostComment, userId);
       } else {
         setLiked(false);
-        setTotalLikes(Number(totalLikes) - 1)
+        setTotalLikes(Number(totalLikes) - 1);
         await removeLikePost(idPostComment, userId);
       }
     }
-    if(post.type === 'comment') {
+    if (post.type === "comment") {
       if (!liked) {
         setLiked(true);
-        if(disliked){
+        if (disliked) {
           setDisliked(false);
           await removeDislikeComment(post.id, userId);
         }
-        setTotalLikes(Number(totalLikes) + 1)
+        setTotalLikes(Number(totalLikes) + 1);
         await sendLikeComment(post.id, userId);
       } else {
         setLiked(false);
-        setTotalLikes(Number(totalLikes) - 1)
+        setTotalLikes(Number(totalLikes) - 1);
         await removeLikeComment(post.id, userId);
       }
     }
@@ -125,7 +147,7 @@ export const CardPost = ({ post }: CardProps) => {
       if (liked) {
         setLiked(false);
         setDisliked(true);
-        setTotalLikes(Number(totalLikes) - 1)
+        setTotalLikes(Number(totalLikes) - 1);
         await removeLikePost(post.id, userId);
       }
       if (!disliked) {
@@ -137,11 +159,11 @@ export const CardPost = ({ post }: CardProps) => {
         await removeDislikePost(idPostComment, userId);
       }
     }
-    if(post.type === 'comment'){
+    if (post.type === "comment") {
       if (liked) {
         setLiked(false);
         setDisliked(true);
-        setTotalLikes(Number(totalLikes) - 1)
+        setTotalLikes(Number(totalLikes) - 1);
         await removeLikeComment(post.id, userId);
       }
       if (!disliked) {

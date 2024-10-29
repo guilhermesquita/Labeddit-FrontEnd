@@ -28,6 +28,11 @@ export interface IListLikeDislikePostByPostAndUser {
   rl_user: string;
 }
 
+export interface IListLikeDislikeCommentByCommentAndUser {
+  rl_comment: string;
+  rl_user: string;
+}
+
 export const idUser = await getIdByToken();
 
 //AUTH
@@ -308,6 +313,28 @@ export const deleteDislikeComment = async (body: ICreateAndDeleteLikeComment) =>
           Authorization: `${localStorage.getItem("token")}`,
         },
         data: body,
+      }
+    );
+    return response;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return error.response;
+    }
+    throw new Error("Could not delete like on post");
+  }
+};
+
+export const listLikeDislikeCommentByCommentAndUser = async ({
+  rl_comment,
+  rl_user,
+}: IListLikeDislikeCommentByCommentAndUser) => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/likes-dislikes/like/dislike/comment/${rl_comment}/${rl_user}`,
+      {
+        headers: {
+          Authorization: `${localStorage.getItem("token")}`,
+        },
       }
     );
     return response;

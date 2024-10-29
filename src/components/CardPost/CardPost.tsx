@@ -13,6 +13,10 @@ import { useRemoveLikePost } from "../../hooks/removeLike";
 import { useGetLikeDislikePost } from "../../hooks/getLikeDislikePost";
 import { useCreateDislikePost } from "../../hooks/createDislike";
 import { useRemoveDislikePost } from "../../hooks/removeDislike";
+import { useCreateLikeComment } from "../../hooks/createLikeComment";
+import { useRemoveLikeComment } from "../../hooks/removeLikeComment";
+import { useCreateDislikeComment } from "../../hooks/createDislikeComment";
+import { useRemoveDislikeComment } from "../../hooks/removeDislikeComment";
 
 type CardProps = {
   post: {
@@ -29,17 +33,27 @@ type CardProps = {
 export const CardPost = ({ post }: CardProps) => {
   const navigate = useNavigate();
 
+  const [totalLikes, setTotalLikes] = useState<number|null>(null)
+
   const [liked, setLiked] = useState(false);
   const [disliked, setDisliked] = useState(false);
 
   const [sendLikePost] = useCreateLikePost();
   const [sendDislikePost] = useCreateDislikePost();
+
   const [removeLikePost] = useRemoveLikePost();
   const [removeDislikePost] = useRemoveDislikePost();
+  
+  const [sendLikeComment] = useCreateLikeComment();
+  const [sendDislikeComment] = useCreateDislikeComment();
+
+  const [removeLikeComment] = useRemoveLikeComment();
+  const [removeDislikeComment] = useRemoveDislikeComment();
 
   const [getLikeDislikePost] = useGetLikeDislikePost();
 
   useEffect(() => {
+    setTotalLikes(Number(post.like))
     const handlePopState = () => {
       location.reload();
     };
@@ -77,10 +91,24 @@ export const CardPost = ({ post }: CardProps) => {
       if (!liked) {
         setLiked(true);
         setDisliked(false);
+        setTotalLikes(Number(totalLikes) + 1)
         await sendLikePost(idPostComment, userId);
       } else {
         setLiked(false);
+        setTotalLikes(Number(totalLikes) - 1)
         await removeLikePost(idPostComment, userId);
+      }
+    }
+    if(post.type === 'comment') {
+      if (!liked) {
+        setLiked(true);
+        setDisliked(false);
+        setTotalLikes(Number(totalLikes) + 1)
+        await sendLikeComment(post.id, userId);
+      } else {
+        setLiked(false);
+        setTotalLikes(Number(totalLikes) - 1)
+        await removeLikeComment(post.id, userId);
       }
     }
   };
@@ -100,6 +128,22 @@ export const CardPost = ({ post }: CardProps) => {
       } else {
         setDisliked(false);
         await removeDislikePost(idPostComment, userId);
+      }
+    }
+    if(post.type === 'comment'){
+      if (liked) {
+        setLiked(false);
+        setDisliked(true);
+        setTotalLikes(Number(totalLikes) - 1)
+        await removeLikeComment(post.id, userId);
+      }
+      if (!disliked) {
+        setDisliked(true);
+        setLiked(false);
+        await sendDislikeComment(idPostComment, userId);
+      } else {
+        setDisliked(false);
+        await removeDislikeComment(idPostComment, userId);
       }
     }
   };
@@ -184,7 +228,7 @@ export const CardPost = ({ post }: CardProps) => {
                 color: "#6F6F6F",
               }}
             >
-              {post.like}
+              {totalLikes}
             </Box>
             <div
               style={{

@@ -18,6 +18,11 @@ interface ICreateAndDeleteLikePost {
   rl_user: string;
 }
 
+interface ICreateAndDeleteLikeComment {
+  rl_comment: string;
+  rl_user: string;
+}
+
 export interface IListLikeDislikePostByPostAndUser {
   rl_post: string;
   rl_user: string;
@@ -225,6 +230,84 @@ export const listLikeDislikePostByPostAndUser = async ({
         headers: {
           Authorization: `${localStorage.getItem("token")}`,
         },
+      }
+    );
+    return response;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return error.response;
+    }
+    throw new Error("Could not delete like on post");
+  }
+};
+
+export const createLikeComment = async (body: ICreateAndDeleteLikeComment) => {
+  try {
+    const response = await axios.post(
+      `${BASE_URL}/likes-dislikes/like/comments`, body,
+      {
+        headers: {
+          Authorization: `${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return error.response;
+    }
+    throw new Error("Could not like post");
+  }
+};
+
+export const deleteLikeComment = async (body: ICreateAndDeleteLikeComment) => {
+  try {
+    const response = await axios.delete(
+      `${BASE_URL}/likes-dislikes/like/comments`,
+      {
+        headers: {
+          Authorization: `${localStorage.getItem("token")}`,
+        },
+        data: body,
+      }
+    );
+    return response;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return error.response;
+    }
+    throw new Error("Could not delete like on post");
+  }
+};
+
+export const createDislikeComment = async (body: ICreateAndDeleteLikeComment) => {
+  try {
+    const response = await axios.post(
+      `${BASE_URL}/likes-dislikes/dislike/comments`, body,
+      {
+        headers: {
+          Authorization: `${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return error.response;
+    }
+    throw new Error("Could not like post");
+  }
+};
+
+export const deleteDislikeComment = async (body: ICreateAndDeleteLikeComment) => {
+  try {
+    const response = await axios.delete(
+      `${BASE_URL}/likes-dislikes/dislike/comments`,
+      {
+        headers: {
+          Authorization: `${localStorage.getItem("token")}`,
+        },
+        data: body,
       }
     );
     return response;

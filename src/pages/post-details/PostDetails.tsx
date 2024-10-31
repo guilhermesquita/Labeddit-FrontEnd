@@ -1,22 +1,31 @@
 import { useParams } from "react-router-dom";
 import { Header } from "../../components/header/Header";
 import { CardPost } from "../../components/CardPost/CardPost";
-import { Box, Button, Divider, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Divider,
+  FormControl,
+  TextField,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { useGetPosts } from "../../hooks/getPosts";
 import { AxiosError } from "axios";
 import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 import { Fonts } from "../../fonts";
 import { useGetCommentsByPostComment } from "../../hooks/getCommentsByIdPostComment";
 import { useGetComments } from "../../hooks/getCommentsAll";
-import { LikedIcon } from "../../assets/icons/LikedIcon";
-import { DislikedIcon } from "../../assets/icons/dislikedIcon";
+import { useForm } from "react-hook-form";
+import { useCreateComment } from "../../hooks/createComment";
+import { idUser } from "../../service/api";
 
-type typeProps = {
-  typePost: string;
+type TypeProps = {
+  typePost: "post" | "comment"; // Tipagem para restringir os valores possíveis de typePost
 };
 
-export const PostDetail = ({ typePost }: typeProps) => {
+export const PostDetail = ({typePost}: TypeProps) => {
   const { idPost } = useParams();
 
   const [post, setPost] = useState<any>();
@@ -28,6 +37,45 @@ export const PostDetail = ({ typePost }: typeProps) => {
   const [listPosts] = useGetPosts();
   const [listComment] = useGetCommentsByPostComment();
   const [listComments] = useGetComments();
+
+  const { register, handleSubmit, reset, formState } = useForm();
+  const { isSubmitting } = formState;
+
+  const [createNewComment] = useCreateComment();
+
+  const createComment = async (data: any) => {
+    if (typePost === "post") {
+      const createPost = await createNewComment({
+        content: data.content,
+        rl_post: idPost as string,
+        rl_user: idUser as string,
+      });
+      if (createPost.status === 500) {
+        return toast.error(
+          "Não foi possível fazer o comentário. Tente novamente mais tarde!"
+        );
+      }
+      reset();
+      window.location.reload();
+    } else if (typePost === "comment") {
+      const createComment = await createNewComment({
+        content: data.content,
+        rl_comment: idPost as string,
+        rl_user: idUser as string,
+      });
+      if (createComment.status === 500) {
+        return toast.error(
+          "Não foi possível fazer o comentário. Tente novamente mais tarde!"
+        );
+      }
+      reset();
+      window.location.reload();
+    } else {
+      return toast.error(
+        "Não foi possível fazer o comentário. Tente novamente mais tarde!"
+      );
+    }
+  };
 
   useEffect(() => {
     if (typePost === "post") {
@@ -51,24 +99,13 @@ export const PostDetail = ({ typePost }: typeProps) => {
           return toast.error("Não foi possível ver os comentários!");
         } else {
           setPost(comment);
-          console.log(idPost);
           const comments = await listComment(idPost as string);
-          console.log(comments);
           setComments(comments);
           setLoading(true);
         }
       };
       getComment();
     }
-    // const getPost = async () => {
-    //   const post = await listPosts(idPost);
-    //   if (post instanceof AxiosError) {
-    //     return toast.error("asas");
-    //   } else {
-    //     setPost(post);
-    //   }
-    // };
-    // getPost();
   }, []);
 
   if (post === undefined || comments === undefined) {
@@ -109,11 +146,11 @@ export const PostDetail = ({ typePost }: typeProps) => {
               rl_user: post?.rl_user,
               comments: post?.comments,
               like: post?.like,
-              type: "post",
+              type: typePost,
             }}
           />
         </Box>
-        <Box
+        <FormControl
           sx={{
             width: "30%",
             display: "flex",
@@ -125,6 +162,7 @@ export const PostDetail = ({ typePost }: typeProps) => {
             multiline
             rows={4}
             fullWidth
+            {...register("content", { required: true })}
             placeholder="Adicionar comentário"
             sx={{
               backgroundColor: "secondary.main",
@@ -134,7 +172,7 @@ export const PostDetail = ({ typePost }: typeProps) => {
 
           <Button
             variant="contained"
-            // onClick={() => handleSubmit(onSubmit)()}
+            onClick={() => handleSubmit(createComment)()}
             sx={{
               color: "white",
               width: { xs: "90%", md: "280px", lg: "100%" },
@@ -145,8 +183,11 @@ export const PostDetail = ({ typePost }: typeProps) => {
               transition: "0.4s",
             }}
           >
-            {/* {isSubmitting ? <CircularProgress color="secondary" size={25} /> : 'Entrar'} */}
-            Responder
+            {isSubmitting ? (
+              <CircularProgress color="secondary" size={25} />
+            ) : (
+              "Responder"
+            )}
           </Button>
           <Divider
             sx={{
@@ -157,7 +198,7 @@ export const PostDetail = ({ typePost }: typeProps) => {
               width: "100%",
             }}
           ></Divider>
-        </Box>
+        </FormControl>
         <Box
           sx={{
             width: "30%",

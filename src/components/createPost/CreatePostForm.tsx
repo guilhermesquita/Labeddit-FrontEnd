@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.min.css";
 
 export const NewPostForm = () => {
   const { register, handleSubmit, formState, reset } = useForm();
-  // const { isSubmitting } = formState
+  const { isSubmitting } = formState
 
   const [createNewPost] = useCreatePost();
 

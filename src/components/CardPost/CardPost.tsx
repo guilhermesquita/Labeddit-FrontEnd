@@ -17,7 +17,6 @@ import { useCreateLikeComment } from "../../hooks/createLikeComment";
 import { useRemoveLikeComment } from "../../hooks/removeLikeComment";
 import { useCreateDislikeComment } from "../../hooks/createDislikeComment";
 import { useRemoveDislikeComment } from "../../hooks/removeDislikeComment";
-import { useGetCommentsByPostComment } from "../../hooks/getCommentsByIdPostComment";
 import { useGetLikeDislikeComment } from "../../hooks/getLikeDislikeComment";
 
 type CardProps = {

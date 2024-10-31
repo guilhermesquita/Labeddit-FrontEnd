@@ -33,6 +33,18 @@ export interface IListLikeDislikeCommentByCommentAndUser {
   rl_user: string;
 }
 
+export interface ICreateCommentForPost{
+  rl_post: string;
+  rl_user: string;
+  content: string;
+}
+
+export interface ICreateCommentForComment{
+  rl_comment: string;
+  rl_user: string;
+  content: string;
+}
+
 export const idUser = await getIdByToken();
 
 //AUTH
@@ -144,11 +156,32 @@ export const createPost = async (content: string) => {
   }
 };
 
+export const createComment = async (body: ICreateCommentForPost | ICreateCommentForComment) => {
+  try {
+    const response = await axios.post(
+      `${BASE_URL}/comments`,
+      body,
+      {
+        headers: {
+          Authorization: `${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return error.response;
+    }
+    throw new Error("Could not get comments");
+  }
+};
+
 //Likes e dislikes
 export const createLikePost = async (body: ICreateAndDeleteLikePost) => {
   try {
     const response = await axios.post(
-      `${BASE_URL}/likes-dislikes/like/posts`, body,
+      `${BASE_URL}/likes-dislikes/like/posts`,
+      body,
       {
         headers: {
           Authorization: `${localStorage.getItem("token")}`,
@@ -188,7 +221,8 @@ export const deleteLikePost = async (body: ICreateAndDeleteLikePost) => {
 export const createDislikePost = async (body: ICreateAndDeleteLikePost) => {
   try {
     const response = await axios.post(
-      `${BASE_URL}/likes-dislikes/dislike/posts`, body,
+      `${BASE_URL}/likes-dislikes/dislike/posts`,
+      body,
       {
         headers: {
           Authorization: `${localStorage.getItem("token")}`,
@@ -249,7 +283,8 @@ export const listLikeDislikePostByPostAndUser = async ({
 export const createLikeComment = async (body: ICreateAndDeleteLikeComment) => {
   try {
     const response = await axios.post(
-      `${BASE_URL}/likes-dislikes/like/comments`, body,
+      `${BASE_URL}/likes-dislikes/like/comments`,
+      body,
       {
         headers: {
           Authorization: `${localStorage.getItem("token")}`,
@@ -285,10 +320,13 @@ export const deleteLikeComment = async (body: ICreateAndDeleteLikeComment) => {
   }
 };
 
-export const createDislikeComment = async (body: ICreateAndDeleteLikeComment) => {
+export const createDislikeComment = async (
+  body: ICreateAndDeleteLikeComment
+) => {
   try {
     const response = await axios.post(
-      `${BASE_URL}/likes-dislikes/dislike/comments`, body,
+      `${BASE_URL}/likes-dislikes/dislike/comments`,
+      body,
       {
         headers: {
           Authorization: `${localStorage.getItem("token")}`,
@@ -304,7 +342,9 @@ export const createDislikeComment = async (body: ICreateAndDeleteLikeComment) =>
   }
 };
 
-export const deleteDislikeComment = async (body: ICreateAndDeleteLikeComment) => {
+export const deleteDislikeComment = async (
+  body: ICreateAndDeleteLikeComment
+) => {
   try {
     const response = await axios.delete(
       `${BASE_URL}/likes-dislikes/dislike/comments`,

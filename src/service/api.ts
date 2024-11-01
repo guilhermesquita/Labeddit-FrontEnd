@@ -45,7 +45,12 @@ export interface ICreateCommentForComment{
   content: string;
 }
 
-export const idUser = await getIdByToken();
+export let idUser: string;
+const initialize = async () => {
+  idUser = await getIdByToken() as string;
+};
+
+initialize();
 
 //AUTH
 export const register = async (user: IUserRegister) => {

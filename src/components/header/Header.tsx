@@ -27,22 +27,6 @@ export const Header = () => {
     getUser();
   });
 
-  if (nameUser === undefined) {
-    return (
-      <Box
-        sx={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-        }}
-      >
-        <CircularProgress color="secondary" size={25} />
-      </Box>
-    );
-  }
-
   return (
     <Box
       component="header"

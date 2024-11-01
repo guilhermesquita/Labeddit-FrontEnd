@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useGetPosts } from "../../hooks/getPosts";
 import { AxiosError } from "axios";
@@ -22,7 +22,19 @@ export const Post = () => {
   });
 
   if (posts === undefined) {
-    return <h1>carregando...</h1>;
+    return (
+      <Box
+        sx={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <CircularProgress color="secondary" size={25} />
+      </Box>
+    );
   }
 
   return (

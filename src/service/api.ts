@@ -72,6 +72,22 @@ export const login = async (user: IUserLogin) => {
   }
 };
 
+export const userById = async (id: string) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/users/${id}`, {
+      headers: {
+        Authorization: `${localStorage.getItem("token")}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return error.response;
+    }
+    throw new Error("Could not get user");
+  }
+}
+
 //Posts e comentários
 export const getPosts = async (id?: string) => {
   try {

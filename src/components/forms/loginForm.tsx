@@ -23,6 +23,7 @@ export const LoginForm = () => {
         }
         auth?.handleLogin()
         await auth?.getPayload(res.token)
+        window.location.reload();
     };
 
     return (

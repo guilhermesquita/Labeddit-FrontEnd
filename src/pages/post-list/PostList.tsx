@@ -1,5 +1,5 @@
 import { Header } from "../../components/header/Header";
-import { Box, Divider } from "@mui/material";
+import { Box } from "@mui/material";
 import { NewPostForm } from "../../components/createPost/CreatePostForm";
 import { Post } from "../../components/post/Post";
 
@@ -9,7 +9,6 @@ export const PostList = () => {
       component="main"
       sx={{
         width: "100%",
-        // border: '1px solid black',
       }}
     >
       <Header />

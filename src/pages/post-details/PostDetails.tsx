@@ -25,7 +25,7 @@ type TypeProps = {
   typePost: "post" | "comment"; // Tipagem para restringir os valores possíveis de typePost
 };
 
-export const PostDetail = ({typePost}: TypeProps) => {
+export const PostDetail = ({ typePost }: TypeProps) => {
   const { idPost } = useParams();
 
   const [post, setPost] = useState<any>();
@@ -109,7 +109,19 @@ export const PostDetail = ({typePost}: TypeProps) => {
   }, []);
 
   if (post === undefined || comments === undefined) {
-    return <h1>carregando...</h1>;
+    return (
+      <Box
+        sx={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <CircularProgress color="secondary" size={25} />
+      </Box>
+    );
   }
 
   return (
@@ -225,6 +237,19 @@ export const PostDetail = ({typePost}: TypeProps) => {
                 );
               })
             : null}
+          {loading ? (
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100vh",
+              }}
+            >
+              <CircularProgress color="secondary" size={25} />
+            </Box>
+          ) : null}
           {comments.length === 0 ? (
             <Box
               component="p"
